@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Board List - WorkEntry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">Boards</h2>
+
+        <a href="{% url 'create_board' %}" class="btn btn-primary mb-3">Create New Board</a>
+
+        <ul class="list-group">
+            {% for board in boards %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'board_detail' board.pk %}">{{ board.name }}</a>
+                    
+                    <!-- Delete Board -->
+                    <form method="post" action="{% url 'board_detail' board.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" name="delete_board" class="btn btn-danger">Delete Board</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

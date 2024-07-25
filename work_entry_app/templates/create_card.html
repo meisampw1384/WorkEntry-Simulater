@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Card - WorkEntry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">Create New Card</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="list" value="{{ list_id }}">
+            <div class="form-group">
+                <label for="id_start_time">Start Time:</label>
+                <input type="text" id="id_start_time" name="start_time" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_end_time">End Time:</label>
+                <input type="text" id="id_end_time" name="end_time" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Card</button>
+        </form>
+        <a href="{% url 'board_detail' list.board.pk %}" class="btn btn-secondary mt-3">Back to Board</a>
+    </div>
+
+    <script>
+        // Initialize Flatpickr
+        flatpickr("#id_start_time", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+        flatpickr("#id_end_time", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+    </script>
+</body>
+</html>

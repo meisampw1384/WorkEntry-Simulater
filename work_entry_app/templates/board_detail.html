@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Board Detail - WorkEntry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">{{ board.name }}</h2>
+        <p>{{ board.description }}</p>
+
+        <!-- Delete Board Form -->
+        <form method="post" action="{% url 'board_detail' board.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="delete_board" value="true">
+            <button type="submit" class="btn btn-danger">Delete Board</button>
+        </form>
+
+        <!-- Form for creating a new list -->
+        <h3>Create New List</h3>
+        <form method="post" action="{% url 'create_list' board.pk %}">
+            {% csrf_token %}
+            {{ list_form.as_p }}
+            <button type="submit" class="btn btn-primary">Add List</button>
+        </form>
+
+        <hr>
+
+        <!-- Lists and cards display -->
+        {% for list in lists %}
+            <div class="mb-4">
+                <h4>{{ list.name }}</h4>
+                <p>{{ list.description }}</p>
+                
+                <!-- Delete List Form -->
+                <form method="post" action="{% url 'delete_list' list.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete_list" value="true">
+                    <button type="submit" class="btn btn-danger">Delete List</button>
+                </form>
+
+                <!-- Form for creating a new card -->
+                <form method="get" action="{% url 'create_card' list.id %}">
+                    <button type="submit" class="btn btn-primary">Add Card</button>
+                </form>
+
+                <!-- Display cards in the list -->
+                {% if list.cards.all %}
+                    <ul class="list-group mt-3">
+                        {% for card in list.cards.all %}
+                            <li class="list-group-item">
+                                {% if card.completed %}
+                                    <h6 style="text-decoration: line-through;">{{ card.name }} (Completed)</h6>
+                                {% elif card.end_time and card.end_time < timezone_now %}
+                                    <h6 style="color: red;">{{ card.name }} (Overdue)</h6>
+                                {% else %}
+                                    <h6>{{ card.name }}</h6>
+                                {% endif %}
+                                <p>{{ card.description }}</p>
+                                <p><strong>Start Time:</strong> {{ card.start_time }}</p>
+                                <p><strong>End Time:</strong> {{ card.end_time }}</p>
+
+                                <!-- Mark Card as Completed Form -->
+                                {% if not card.completed %}
+                                    <form method="post" action="{% url 'create_card' list.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="card_id" value="{{ card.id }}">
+                                        <button type="submit" name="mark_completed" class="btn btn-success">Mark as Completed</button>
+                                    </form>
+                                {% endif %}
+
+                                <!-- Delete Card Form -->
+                                <form method="post" action="{% url 'delete_card' card.pk %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete_card" value="true">
+                                    <button type="submit" class="btn btn-danger">Delete Card</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No cards in this list.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Initialize flatpickr for any date-time input fields
+        flatpickr("input[type=datetime-local]", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+    </script>
+</body>
+</html>

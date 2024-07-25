@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - WorkEntry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0079bf;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: white;
+            color: black;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #5aac44;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #519839;
+        }
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to WorkEntry</h2>
+        <p>Organize your work efficiently.</p>
+        <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+    </div>
+</body>
+</html>

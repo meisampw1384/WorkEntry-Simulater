@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - WorkEntry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0079bf;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .btn-primary {
+            background-color: #5aac44;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #519839;
+        }
+        .form-control:focus {
+            border-color: #5aac44;
+            box-shadow: 0 0 5px rgba(90, 172, 68, 0.5);
+        }
+        .link-primary {
+            color: #0079bf;
+        }
+        .link-primary:hover {
+            color: #005b99;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Login to WorkEntry</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'signup' %}" class="link-primary">Don't have an account? Sign up here</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -19,11 +19,17 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             margin-top: 50px;
         }
-        h2, h3, h4 {
-            color: #fff;
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: none;
         }
-        p {
-            color: #ccc;
+        .list-group-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .list-group-item a:hover {
+            text-decoration: underline;
         }
         .btn-primary {
             background: #007bff;
@@ -39,20 +45,8 @@
         .btn-danger:hover {
             background: #c82333;
         }
-        .btn-success {
-            background: #28a745;
-            border: none;
-        }
-        .btn-success:hover {
-            background: #218838;
-        }
-        .list-group-item {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border: none;
-        }
-        .list-group-item h6 {
-            margin-bottom: 0.5rem;
+        .card-info {
+            color: #ccc;
         }
     </style>
 </head>
@@ -65,7 +59,7 @@
         <form method="post" action="{% url 'board_detail' board.pk %}">
             {% csrf_token %}
             <input type="hidden" name="delete_board" value="true">
-            <button type="submit" class="btn btn-danger mb-4">Delete Board</button>
+            <button type="submit" class="btn btn-danger">Delete Board</button>
         </form>
 
         <!-- Form for creating a new list -->
@@ -85,14 +79,14 @@
                 <p>{{ list.description }}</p>
                 
                 <!-- Delete List Form -->
-                <form method="post" action="{% url 'delete_list' list.pk %}" class="d-inline">
+                <form method="post" action="{% url 'delete_list' list.pk %}">
                     {% csrf_token %}
                     <input type="hidden" name="delete_list" value="true">
                     <button type="submit" class="btn btn-danger">Delete List</button>
                 </form>
 
                 <!-- Form for creating a new card -->
-                <form method="get" action="{% url 'create_card' list.id %}" class="d-inline">
+                <form method="get" action="{% url 'create_card' list.id %}">
                     <button type="submit" class="btn btn-primary">Add Card</button>
                 </form>
 
@@ -108,16 +102,17 @@
                                 {% else %}
                                     <h6>{{ card.name }}</h6>
                                 {% endif %}
-                                <p>{{ card.description }}</p>
-                                <p><strong>Start Time:</strong> {{ card.start_time }}</p>
-                                <p><strong>End Time:</strong> {{ card.end_time }}</p>
+                                <p class="card-info">{{ card.description }}</p>
+                                <p class="card-info"><strong>Start Time:</strong> {{ card.start_time }}</p>
+                                <p class="card-info"><strong>End Time:</strong> {{ card.end_time }}</p>
 
                                 <!-- Mark Card as Completed Form -->
                                 {% if not card.completed %}
                                     <form method="post" action="{% url 'create_card' list.id %}" class="d-inline">
                                         {% csrf_token %}
+                                        <input type="hidden" name="mark_completed" value="true">
                                         <input type="hidden" name="card_id" value="{{ card.id }}">
-                                        <button type="submit" name="mark_completed" class="btn btn-success">Mark as Completed</button>
+                                        <button type="submit" class="btn btn-success">Mark as Completed</button>
                                     </form>
                                 {% endif %}
 
@@ -130,16 +125,18 @@
                             </li>
                         {% endfor %}
                     </ul>
-                {% else %}
-                    <p>No cards in this list.</p>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
 
     <script>
-        // Initialize flatpickr for any date-time input fields
-        flatpickr("input[type=datetime-local]", {
+        // Initialize Flatpickr
+        flatpickr("#id_start_time", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+        flatpickr("#id_end_time", {
             enableTime: true,
             dateFormat: "Y-m-d H:i",
         });

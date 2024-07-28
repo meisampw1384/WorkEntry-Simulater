@@ -42,7 +42,7 @@ class BoardDetailView(LoginRequiredMixin, DetailView):
         context['card_form'] = CardForm()
         context['timezone_now'] = timezone.now()  
         return context
-
+    #for delete the board
     def post(self, request, *args, **kwargs):
         board = self.get_object()
         if 'delete_board' in request.POST:

@@ -1,17 +1,20 @@
 from django import forms
 from .models import Board, List, Card
 
+
 class BoardForm(forms.ModelForm):
     class Meta:
         model = Board
-        fields = ['name']
+        fields = ["name"]
+
 
 class ListForm(forms.ModelForm):
     class Meta:
         model = List
-        fields = ['name']
+        fields = ["name"]
+
 
 class CardForm(forms.ModelForm):
     class Meta:
         model = Card
-        fields = ['name', 'description','completed']
+        fields = ["name", "description", "completed"]

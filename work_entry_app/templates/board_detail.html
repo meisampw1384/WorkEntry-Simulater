@@ -46,7 +46,7 @@
             background: #c82333;
         }
         .card-info {
-            color: #ccc;
+            color: #c58f15;
         }
     </style>
 </head>
@@ -55,12 +55,17 @@
         <h2 class="my-4">{{ board.name }}</h2>
         <p>{{ board.description }}</p>
 
-        <!-- Delete Board Form -->
-        <form method="post" action="{% url 'board_detail' board.pk %}">
-            {% csrf_token %}
-            <input type="hidden" name="delete_board" value="true">
-            <button type="submit" class="btn btn-danger">Delete Board</button>
-        </form>
+        <!-- Buttons Container -->
+        <div class="d-flex mb-4">
+            <a href="{% url 'board_list' %}" class="btn btn-secondary mr-2">Back to Board List</a>
+
+            <!-- Delete Board Form -->
+            <form method="post" action="{% url 'board_detail' board.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="delete_board" value="true">
+                <button type="submit" class="btn btn-danger">Delete Board</button>
+            </form>
+        </div>
 
         <!-- Form for creating a new list -->
         <h3>Create New List</h3>

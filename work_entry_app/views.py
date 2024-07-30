@@ -1,4 +1,6 @@
 from typing import Any
+from datetime import datetime
+
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,9 +9,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.utils import timezone
-from django.contrib.auth import login, logout
+
 from .models import Board, List, Card
 from .forms import ListForm, BoardForm, CardForm
+
+import pytz
+
 
 
 @method_decorator(never_cache, name="dispatch")
@@ -48,8 +53,10 @@ class BoardDetailView(LoginRequiredMixin, DetailView):
         context["lists"] = board.lists.prefetch_related("cards")
         context["list_form"] = ListForm()
         context["card_form"] = CardForm()
+        print(timezone.now())
         context["timezone_now"] = timezone.now()
         return context
+    
 
     def post(self, request, *args, **kwargs):
         board = self.get_object()

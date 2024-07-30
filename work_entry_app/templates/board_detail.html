@@ -58,7 +58,7 @@
         <!-- Buttons Container -->
         <div class="d-flex mb-4">
             <a href="{% url 'board_list' %}" class="btn btn-secondary mr-2">Back to Board List</a>
-
+            <a href="{% url 'calendar' board.pk %}" class="btn btn-info mr-2">Calendar</a> <!-- Calendar Button -->
             <!-- Delete Board Form -->
             <form method="post" action="{% url 'board_detail' board.pk %}">
                 {% csrf_token %}

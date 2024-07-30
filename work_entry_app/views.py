@@ -53,7 +53,6 @@ class BoardDetailView(LoginRequiredMixin, DetailView):
         context["lists"] = board.lists.prefetch_related("cards")
         context["list_form"] = ListForm()
         context["card_form"] = CardForm()
-        print(timezone.now())
         context["timezone_now"] = timezone.now()
         return context
     
@@ -159,3 +158,21 @@ class DeleteListView(LoginRequiredMixin, View):
             list_instance.delete()
             return redirect("board_detail", pk=board_pk)
         return redirect("board_detail", pk=list_instance.board.pk)
+    
+class CalendarView(LoginRequiredMixin,DetailView):
+    model = Board
+    template_name = 'calendar.html'
+    context_object_name = 'board'
+    login_url = "/login/"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        board = self.get_object()
+        context['cards'] = Card.objects.filter(list__board=board)
+        context['timezone_now'] = timezone.now()
+        return context
+    
+    
+        
+        
+    
